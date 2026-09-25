@@ -5,6 +5,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sympy import Symbol
+from scipy.special import beta as scipy_beta
 
 #1.0 The integral half ---
 
@@ -59,8 +60,8 @@ if A==R:
 elif A==T:
   Tf=0; Tg=0
   for i in range(N+1):
-    Tf = Tf+(fi[(i+1),s,t]+fi[i,s,t])*(1/2)*(1/N)
-    Tg = (gi[(i+1),s1,t1]+gi[i,s1,t1])*(1/2)*(1/N)
+    Rf = Rf+(fi[(i+1),s,t]+fi[i,s,t])*(1/2)*(1/N)
+    Rg = Rg+(gi[(i+1),s1,t1]+gi[i,s1,t1])*(1/2)*(1/N)
   print("Tf",Tf,"Tg",Tg)
 #1.53 define Simpson's integration
 elif A==S:
@@ -84,7 +85,15 @@ else:
 
 #----
 #1.X Generate integration comparisons
+print("This compares the computed value of the integral, for some, s,t. EB:",scipy_beta(-s1,-t1),"computed:",Rg)
+RRf=np.empty((Ns+1,Nt+1)); RRB=np.empty((Ns+1,Nt+1))
+for i in range(Ns+1):
+  Rfs=Rf.subs(s,si[i])
+  for j in range(Nt+1):
+    RRf[i,j]=Rfs.subs(t,ti[j])
 
+RRB[i,j]=scipy_beta(-si[i],ti[j])
+print("Computed:",RRf,"Scipy:",RRB)
 #-------------------------------------
 
 

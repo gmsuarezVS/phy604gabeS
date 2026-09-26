@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sympy import Symbol
 from scipy.special import beta as scipy_beta
-
+from matplotlib.ticker import LinearLocator
 #1.0 The integral half ---
 
 #1.1 choose integral type
@@ -97,5 +97,5 @@ print("Computed:",RRf,"Scipy:",RRB,"Differences:",RRf-RRB)
 #1.61 Generating 3D Plot comparisons over s,t
 
 
-# analysis for integration
 
+# analysis for integration

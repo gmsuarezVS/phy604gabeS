@@ -13,7 +13,7 @@ E=0.0301; RK4=0.0302; Both=0.0303
 B = eval(input("Please input which integration method - E, RK4, - or Both"))
 
 #2.2 The differential equation of choice is-
-#d^2/dt^2 r(t) = L^2/(u*r(t)^3)-G*M*u/r^2
+#u*d^2/dt^2 r(t) = L^2/(u*r(t)^3)-G*M*u/r(t)^2
 
 #2.21 ICs : Let r(0)=r0, d/dt r(t)|t=0 = v0, the update equations:
 r0, v0 = map(float,input("Input initial position, velocity: ").split(","))
@@ -41,8 +41,22 @@ if B==E:
     if r[i]<=0:
       print("hit physical barrier-input parameters predict collision in finite time")
 if B==RK4:
+  def accel(r):
+    return (L**2/(u**2*r**3)-G*M/r**2)
   for i in range(Nd):
-
+    #thinking about below was an exercise (for the better or worse)
+    a1=dt*rdot[i]
+    b1=dt*accel(r[i])
+    a2=dt*(rdot[i]+b1/2)
+    b2=dt*accel(r[i]+a1/2)
+    a3=dt*(rdot[i]+b2/2)
+    b3=dt*accel(r[i]+a2/2)
+    a4=dt*(rdot[i]+b3)
+    b4=dt*accel(r[i]+a3)
+    #using a, b to update, oh and split d^2/dt^2 r = d/dt v
+    timee[i+1]=timee[i]+dt
+    r[i+1]=r[i]+(1/6)*(a1+2*a2+2*a3+a4)
+    rdot[i+1]=rdot[i]+(1/6)*(b1+2*b2+2*b3+b4)
     if i % 100 == 0:
       print("r, rdot (aka V) at time t=",timee[i],":",r[i],rdot[i])
     if r[i]<=0:
@@ -58,8 +72,9 @@ plt.title(f"Orbit plot position (x,y) versus time, theta0=0, r0={r0},v0={v0}")
 plt.plot(r*np.sin(thetadot*timee),r*np.cos(thetadot*timee))
 plt.show()
 
-for i in range(Nd):
-  print(thetadot*timee[i] % (2*np.pi))
+#for i in range(Nd):
+#  print(thetadot*timee[i] % (2*np.pi))
+
 #----
 #Generate differential equation comparisons
 

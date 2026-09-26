@@ -84,17 +84,17 @@ else:
   print("You put A=",A,",which is not a valid choice")
 
 #----
-#1.X Generate integration comparisons
+#1.6 Generate integration comparisons
 print("This compares the computed value of the integral, for some, s,t. EB:",scipy_beta(-s1,-t1),"computed:",Rg)
 RRf=np.empty((Ns+1,Nt+1)); RRB=np.empty((Ns+1,Nt+1))
 for i in range(Ns+1):
   Rfs=Rf.subs(s,si[i])
   for j in range(Nt+1):
     RRf[i,j]=Rfs.subs(t,ti[j])
+    RRB[i,j]=scipy_beta(-si[i],-ti[j])
+print("Computed:",RRf,"Scipy:",RRB,"Differences:",RRf-RRB)
 
-RRB[i,j]=scipy_beta(-si[i],ti[j])
-print("Computed:",RRf,"Scipy:",RRB)
-#-------------------------------------
+#1.61 Generating 3D Plot comparisons over s,t
 
 
 # analysis for integration

@@ -86,18 +86,65 @@ else:
   print("You put A=",A,",which is not a valid choice... ")
 
 #----
-#1.6 Generate integration comparisons
+#1.6 Generate integration comparison printouts
 print("This compares the computed value of the integral, for some, s,t. EB:",scipy_beta(-s1,-t1),"computed:",Rg)
 RRf=np.empty((Ns+1,Nt+1)); RRB=np.empty((Ns+1,Nt+1))
 for i in range(Ns+1):
   Rfs=Rf.subs(s,si[i])
   for j in range(Nt+1):
-    RRf[i,j]=Rfs.subs(t,ti[j])
-    RRB[i,j]=scipy_beta(-si[i],-ti[j])
+    RRf[i,j]=float(Rfs.subs(t,ti[j]))
+    RRB[i,j]=float(scipy_beta(-si[i],-ti[j]))
 print("Computed:",RRf,"Scipy:",RRB,"Differences:",RRf-RRB)
 
-#1.61 Generating 3D Plot comparisons over s,t
+#1.7 Generating 3D Plot comparisons over s,t
+#1.71 comparison grids per https://numpy.org/doc/2.5/reference/generated/numpy.meshgrid.html
+sgrid, tgrid = np.meshgrid(si,ti,indexing='ij')
 
+if A==R:
+  C=print('T');
+elif A==T:
+  C=print('T');
+elif A==S:
+  C=print('S');
+  
+#plot 1 per https://matplotlib.org/stable/gallery/mplot3d/surface3d.html
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+# Make data.
+ax.set_title(f"Numerical integration method from {C}")
+ax.set_xlabel('s') ;ax.set_ylabel('t'); ax.set_zlabel('Numerical B(s,t)')
+# Plot the surface.
+surf = ax.plot_surface(sgrid, tgrid, RRf, cmap="coolwarm",
+                       linewidth=0, antialiased=False)
+# Add a color bar which maps values to colors.
+fig.colorbar(surf, shrink=0.5, aspect=5)
+plt.show()
 
+#----
+
+#plot 2 
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+# Make data.
+ax.set_title(f"SciPy integration method")
+ax.set_xlabel('s') ;ax.set_ylabel('t'); ax.set_zlabel('SciPy B(s,t)')
+# Plot the surface.
+surf = ax.plot_surface(sgrid, tgrid, RRB, cmap="coolwarm",
+                       linewidth=0, antialiased=False)
+# Add a color bar which maps values to colors.
+fig.colorbar(surf, shrink=0.5, aspect=5)
+plt.show()
+
+#----
+
+#plot 3 
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+# Make data.
+ax.set_title(f"Numerical integration method from {C}")
+ax.set_xlabel('s') ;ax.set_ylabel('t'); ax.set_zlabel('raw % Difference from RRB')
+# Plot the surface.
+surf = ax.plot_surface(sgrid, tgrid, 100*(RRB-RRf)/RRB, cmap="coolwarm",
+                       linewidth=0, antialiased=False)
+# Add a color bar which maps values to colors.
+fig.colorbar(surf, shrink=0.5, aspect=5)
+plt.show()
 
 # analysis for integration

@@ -1,0 +1,1 @@
+Please read the attached pdf. If you cannot, you can read the main.tex, but that's slightly painful anyways, so I recommend loading both py files and running them. The results are explained in the output, for some initial conditions.

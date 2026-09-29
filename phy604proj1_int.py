@@ -24,8 +24,8 @@ def fi(x,s,t):
 s1, t1 = map(float,input("Please input your Mandelstam variables (expect convergence, generically, only for s,t < 0): ").split(","))
 print(s1,t1)
 def gi(z,s1,t1):
-  if z <= 0: x = 0.0001
-  if z >= 1: x = 1 - 0.0001
+  if z <= 0: z = 0.0001
+  if z >= 1: z = 1 - 0.0001
   return z**(-s1-1)*(1-z)**(-t1-1)
 
 #1.4 Fill out values of fi, gi
@@ -77,9 +77,9 @@ elif A==S:
       Rf=Rf+4*fi(i/N,s,t)*1/(N*3)
   for i in range(1,N):
     if i % 2 == 0:
-      Rg=Rg+2*gi(i/N,si,ti)*1/(N*3)
+      Rg=Rg+2*gi(i/N,s1,t1)*1/(N*3)
     elif i % 1==0:
-      Rg=Rg+4*gi[i/N,si,ti]*1/(N*3)
+      Rg=Rg+4*gi(i/N,s1,t1)*1/(N*3)
   #print("Sf:",Rf,"Sg:",Rg)
 #1.55 to show typo
 else:

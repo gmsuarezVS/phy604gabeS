@@ -105,33 +105,34 @@ if B==RK4:
 plt.figure(1)
 plt.title(f"radius vs theta mod 2pi, theta0=0, r0={r0},v0={v0} - it will connect θ=2pi, θ=0...")
 plt.plot((theta % (2*np.pi)), r)
+plt.xlabel("Pos r (m)");plt.ylabel("theta mod 2pi")
 plt.axis('equal') #https://stackoverflow.com/questions/17990845/how-do-i-equalize-the-scales-of-the-x-axis-and-y-axis
-plt.show()
 
 plt.figure(2)
 plt.title(f"Orbit plot position (x,y) versus time, theta0=0, r0={r0},v0={v0}")
 plt.plot(r*np.sin(theta),r*np.cos(theta))
+plt.xlabel("Pos x (m)");plt.ylabel("Pos y (m)")
 plt.axis('equal')
-plt.show()
 
 plt.figure(3)
 plt.title("Actual analytic r(theta) formula")
 plt.plot(rana*np.sin(theta),rana*np.cos(theta))
+plt.xlabel("Pos x (m)");plt.ylabel("Pos y (m)")
 plt.axis('equal')
-plt.show()
 
 plt.figure(4)
 plt.title("Difference in analytic r(t), and numerical")
 plt.plot((rana-r)*np.sin(theta),(rana-r)*np.cos(theta))
+plt.xlabel("Pos x (m)");plt.ylabel("Pos y (m)")
 plt.axis('equal')
-plt.show()
 
 plt.figure(5)
 plt.title("Energy plot")
 plt.plot(timee,energy)
+plt.xlabel("Time (s)");plt.ylabel("Energy (J)")
 plt.axis([0,Nd*dt,min(energy)/1.01,max(energy)*1.01])
-plt.show()
 
+plt.show()
 #2.6 Optional useful diagnostic for user - see energy drift
 for i in range(len(energy)):
   if i % int(Nd/100) == 0:
